@@ -3,6 +3,7 @@ package io.sotrh.gmtk_game_jam.screens
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.math.MathUtils
 import io.sotrh.gmtk_game_jam.GMTKJamGame
 import io.sotrh.gmtk_game_jam.managers.EntityManager
 import io.sotrh.gmtk_game_jam.managers.SoundManager
@@ -20,10 +21,6 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
         music.play()
         music.isLooping = true
 
-        EntityManager.spawnEnemy(Gdx.graphics.width * 0.25f, Gdx.graphics.height * 0.25f)
-        EntityManager.spawnEnemy(Gdx.graphics.width * 0.25f, Gdx.graphics.height * 0.75f)
-        EntityManager.spawnEnemy(Gdx.graphics.width * 0.75f, Gdx.graphics.height * 0.25f)
-        EntityManager.spawnEnemy(Gdx.graphics.width * 0.75f, Gdx.graphics.height * 0.75f)
     }
 
     override fun render(delta: Float) {
@@ -35,6 +32,11 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
         EntityManager.update(delta)
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+
+        if (MathUtils.floor(MathUtils.random() * 100) % 100 == 0) {
+            EntityManager.spawnEnemy(Gdx.graphics.width * MathUtils.random(), Gdx.graphics.height * MathUtils.random())
+        }
+
         parent.apply {
             batch.begin()
             EntityManager.draw(batch)
