@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2
  */
 
 
-abstract class BaseEntity() {
+abstract class BaseEntity {
     abstract val resourceString: String
     var position: Vector2 = Vector2()
     var health: Int = 100
@@ -22,6 +22,15 @@ abstract class BaseEntity() {
         val vx = MathUtils.cos(angle) * velocity * deltaTime
         val vy = MathUtils.sin(angle) * velocity * deltaTime
         position.add(vx, vy)
+    }
+
+    fun update(deltaTime: Float) {
+        val direction = Vector2(Gdx.input.x.toFloat(), Gdx.graphics.height - Gdx.input.y.toFloat())
+        direction
+                .sub(position)
+                .nor()
+        angle = direction.angleRad()
+        moveDelta(deltaTime)
     }
 
 

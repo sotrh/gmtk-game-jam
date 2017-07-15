@@ -26,11 +26,10 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
 
     override fun render(delta: Float) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        player.moveDelta(delta)
+        player.update(delta)
         parent.apply {
             batch.begin()
             batch.draw(texture, player.position.x, player.position.y)
-
             font.draw(batch, "FPS: ${Gdx.graphics.framesPerSecond}", 10f, 20f)
             batch.end()
         }
