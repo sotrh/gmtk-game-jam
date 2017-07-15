@@ -45,18 +45,4 @@ class Player : BaseEntity() {
         angle = direction.angleRad()
         moveDelta(deltaTime)
     }
-
-    fun boost() {
-        if (velocity < 500) {
-            velocity += 20
-        }
-    }
-
-    fun stop() {
-        if (velocity > 0) {
-            velocity -= 10
-        }
-    }
-
-
 }

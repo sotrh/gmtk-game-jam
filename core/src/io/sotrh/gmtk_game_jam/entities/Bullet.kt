@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2
 
 class Bullet(player: Player) : BaseEntity() {
     override var velocity: Float = 600f
-    override val resourceString: String = "player.png"
+    override val resourceString: String = "bullet.png"
 
     init {
         position = player.position.cpy()
