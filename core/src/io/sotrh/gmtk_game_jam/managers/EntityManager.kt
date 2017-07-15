@@ -1,6 +1,7 @@
 package io.sotrh.gmtk_game_jam.managers
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import io.sotrh.gmtk_game_jam.entities.*
 
@@ -27,7 +28,8 @@ object EntityManager {
         player.id = currentId++
         player.textureRegion = TextureManager.getTextureRegion(player.resourceString)
         playerId = player.id
-        addEntity(player)
+        entityQueue.add(player)
+        entityQueue.add(EnergyBar(player))
         return player.id
     }
 
@@ -65,6 +67,7 @@ object EntityManager {
         enemy.id = currentId++
         enemy.position.set(x, y)
         entityQueue.add(enemy)
+        entityQueue.add(EnergyBar(enemy))
         return enemy.id
     }
 
@@ -81,7 +84,10 @@ object EntityManager {
 
     fun update(deltaTime: Float) {
         typeEntityMap.values.forEach {
-            it.forEach { it.update(deltaTime) }
+            it.forEach {
+                it.update(deltaTime)
+                if (it.health <= 0) entitiesToRemove.add(it)
+            }
         }
 
         typeEntityMap[EntityType.BULLET]?.map { it as? Bullet }?.filterNotNull()?.forEach { bullet ->
@@ -89,7 +95,6 @@ object EntityManager {
                 if (type != EntityType.BULLET) entityList.forEach {
                     if (bullet.ownerType != it.type && it.isColliding(bullet)) {
                         it.health -= bullet.damage
-                        if (it.health <= 0) entitiesToRemove.add(it)
                     }
                 }
             }
