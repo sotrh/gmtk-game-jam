@@ -12,6 +12,7 @@ object EntityManager {
     private var currentId = 0
     private var playerId = -1
     private val entitiesToRemove = Array<BaseEntity>()
+    private val entityQueue = Array<BaseEntity>()
     private val idEntityMap = mutableMapOf<Int, BaseEntity>()
     private val deadEntityMap = mutableMapOf<EntityType, Array<BaseEntity>>()
     private val typeEntityMap = mutableMapOf<EntityType, Array<BaseEntity>>()
@@ -59,7 +60,7 @@ object EntityManager {
         bullet.ownerType = parentEntity.type
         bullet.position.set(parentEntity.position)
         bullet.angle = parentEntity.angle
-        addEntity(bullet)
+        entityQueue.add(bullet)
         return bullet.id
     }
 
@@ -68,7 +69,7 @@ object EntityManager {
         enemy.textureRegion = TextureManager.getTextureRegion(enemy.resourceString)
         enemy.id = currentId++
         enemy.position.set(x, y)
-        addEntity(enemy)
+        entityQueue.add(enemy)
         return enemy.id
     }
 
@@ -100,6 +101,8 @@ object EntityManager {
             }
         }
 
+        entityQueue.forEach { addEntity(it) }
+        entityQueue.clear()
         entitiesToRemove.forEach { removeEntity(it) }
         entitiesToRemove.clear()
     }

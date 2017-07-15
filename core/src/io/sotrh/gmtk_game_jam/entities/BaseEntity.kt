@@ -17,7 +17,10 @@ abstract class BaseEntity {
         val TEMP_VEC = Vector2()
         val TEMP_RECT = Rectangle()
         val TEMP_RECT_OTHER = Rectangle()
+        val SHOOT_COOLDOWN = .1f
+        val MAX_VELOCITY = 500
     }
+
 
     abstract val resourceString: String
     abstract val type: EntityType
@@ -27,6 +30,7 @@ abstract class BaseEntity {
     open var health: Int = 100
     open var angle: Float = 0f
     open var velocity: Float = 0f
+    open var maxVelocity: Int = MAX_VELOCITY
 
 
     abstract fun update(deltaTime: Float)

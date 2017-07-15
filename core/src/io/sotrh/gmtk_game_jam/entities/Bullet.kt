@@ -7,7 +7,7 @@ package io.sotrh.gmtk_game_jam.entities
 
 class Bullet : BaseEntity() {
     var ownerType: EntityType = EntityType.NONE
-    var damage: Int = 100
+    var damage: Int = 10
     override val type: EntityType get() = EntityType.BULLET
     override var velocity: Float = 600f
     override val resourceString: String = "bullet.png"
