@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
@@ -27,17 +26,14 @@ abstract class BaseEntity {
     fun moveDelta(deltaTime: Float) {
         val vx = MathUtils.cos(angle) * velocity * deltaTime
         val vy = MathUtils.sin(angle) * velocity * deltaTime
-        val target = Vector2(position).add(vx, vy)
-        position.interpolate(target, 1f, Interpolation.elastic)
+        position.add(vx, vy)
     }
 
     fun update(deltaTime: Float) {
         val direction = Vector2(Gdx.input.x.toFloat(), Gdx.graphics.height - Gdx.input.y.toFloat())
-
         direction
                 .sub(position)
                 .nor()
-
         angle = direction.angleRad()
         moveDelta(deltaTime)
     }

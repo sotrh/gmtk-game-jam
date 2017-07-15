@@ -3,10 +3,8 @@ package io.sotrh.gmtk_game_jam.screens
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Texture
 import io.sotrh.gmtk_game_jam.GMTKJamGame
 import io.sotrh.gmtk_game_jam.entities.Player
-import org.w3c.dom.Text
 
 /**
  * gmtk-game-jam
