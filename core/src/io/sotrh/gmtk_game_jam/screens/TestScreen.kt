@@ -14,13 +14,11 @@ import io.sotrh.gmtk_game_jam.managers.SoundManager
  */
 class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
 
-
     override fun show() {
         EntityManager.createPlayer()
         val music = SoundManager.getMusic("background.ogg")
         music.play()
         music.isLooping = true
-
     }
 
     override fun render(delta: Float) {

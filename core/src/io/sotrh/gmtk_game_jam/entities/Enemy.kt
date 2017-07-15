@@ -12,6 +12,7 @@ class Enemy : Player() {
     override val type: EntityType get() = EntityType.ENEMY
     override val resourceString: String get() = "enemy3.png"
     override var health: Int = 30
+    override val maxHealth: Int = 30
     override var maxVelocity: Int = 100
 
     override fun calcDirection(): Vector2 {
