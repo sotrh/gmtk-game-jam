@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
 import io.sotrh.gmtk_game_jam.GMTKJamGame
 import io.sotrh.gmtk_game_jam.managers.EntityManager
+import io.sotrh.gmtk_game_jam.managers.SoundManager
 
 /**
  * gmtk-game-jam
@@ -15,6 +16,9 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
 
     override fun show() {
         EntityManager.createPlayer()
+        val music = SoundManager.getMusic("background.ogg")
+        music.play()
+        music.isLooping = true
     }
 
     override fun render(delta: Float) {
