@@ -25,6 +25,7 @@ object TextureManager {
     }
 
     fun disposeAll() {
-        textureMap.keys.forEach { disposeTexture(it) }
+        textureMap.values.forEach { it.dispose() }
+        textureMap.clear()
     }
 }

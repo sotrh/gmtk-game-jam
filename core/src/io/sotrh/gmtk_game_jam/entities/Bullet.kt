@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2
  */
 
 
-class Bullet(position: Vector2, angle: Float) : BaseEntity() {
+class Bullet : BaseEntity() {
     override val type: EntityType get() = EntityType.BULLET
     override var velocity: Float = 600f
     override val resourceString: String = "bullet.png"
