@@ -5,7 +5,7 @@ package io.sotrh.gmtk_game_jam.entities
  */
 
 class Player : BaseEntity() {
-    override val resourceString: String = "badlogic.jpg"
+    override val resourceString: String = "player.png"
 
 
 }

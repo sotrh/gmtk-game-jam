@@ -13,14 +13,11 @@ import org.w3c.dom.Text
  */
 class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
 
-    private lateinit var texture: Texture
-    private lateinit var playerTexture: Texture
     private val player: Player = Player()
 
     override fun show() {
         parent.apply {
-            texture = textureManager.getTexture("badlogic.jpg")
-            playerTexture = textureManager.getTexture(player.resourceString)
+            player.textureRegion = textureManager.getTextureRegion(player.resourceString)
         }
     }
 
@@ -29,7 +26,7 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
         player.update(delta)
         parent.apply {
             batch.begin()
-            batch.draw(texture, player.position.x, player.position.y)
+            player.draw(batch)
             font.draw(batch, "FPS: ${Gdx.graphics.framesPerSecond}", 10f, 20f)
             batch.end()
         }

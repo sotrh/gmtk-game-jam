@@ -2,6 +2,7 @@ package io.sotrh.gmtk_game_jam.managers
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 
 /**
  * gmtk-game-jam
@@ -12,6 +13,10 @@ class TextureManager {
 
     fun getTexture(name: String): Texture {
         return textureMap[name] ?: Texture(Gdx.files.internal("textures/$name")).also { textureMap.put(name, it) }
+    }
+
+    fun getTextureRegion(name: String): TextureRegion {
+        return TextureRegion(getTexture(name))
     }
 
     fun disposeTexture(name: String) {
