@@ -27,15 +27,16 @@ open class Player : BaseEntity() {
 
 
     fun boost() {
-        if (velocity < maxVelocity) {
-            velocity += 20
+        val direction = calcDirection().nor().scl(20f)
+        velocity.add(direction)
+        val mag = velocity.len()
+        if (mag > maxVelocity) {
+            velocity.scl(maxVelocity/mag)
         }
     }
 
     fun stop() {
-        if (velocity > 0) {
-            velocity -= 10
-        }
+        velocity.scl(0.9f)
     }
 
     override fun update(deltaTime: Float) {

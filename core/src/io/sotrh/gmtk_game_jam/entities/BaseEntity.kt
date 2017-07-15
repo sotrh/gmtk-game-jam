@@ -29,16 +29,14 @@ abstract class BaseEntity {
     open var position: Vector2 = Vector2()
     open var health: Int = 100
     open var angle: Float = 0f
-    open var velocity: Float = 0f
+    open var velocity: Vector2 = Vector2()
     open var maxVelocity: Int = MAX_VELOCITY
 
 
     abstract fun update(deltaTime: Float)
 
     open fun moveDelta(deltaTime: Float) {
-        val vx = MathUtils.cos(angle) * velocity * deltaTime
-        val vy = MathUtils.sin(angle) * velocity * deltaTime
-        position.add(vx, vy)
+        position.add(velocity.cpy().scl(deltaTime))
     }
 
     open fun draw(batch: SpriteBatch) {
