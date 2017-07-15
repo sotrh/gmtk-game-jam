@@ -2,10 +2,7 @@ package io.sotrh.gmtk_game_jam.managers
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.Array
-import io.sotrh.gmtk_game_jam.entities.BaseEntity
-import io.sotrh.gmtk_game_jam.entities.Bullet
-import io.sotrh.gmtk_game_jam.entities.EntityType
-import io.sotrh.gmtk_game_jam.entities.Player
+import io.sotrh.gmtk_game_jam.entities.*
 
 /**
  * gmtk-game-jam
@@ -14,6 +11,7 @@ import io.sotrh.gmtk_game_jam.entities.Player
 object EntityManager {
     private var currentId = 0
     private var playerId = -1
+    private val entitiesToRemove = Array<BaseEntity>()
     private val idEntityMap = mutableMapOf<Int, BaseEntity>()
     private val deadEntityMap = mutableMapOf<EntityType, Array<BaseEntity>>()
     private val typeEntityMap = mutableMapOf<EntityType, Array<BaseEntity>>()
@@ -47,8 +45,8 @@ object EntityManager {
         return recycledEntity
     }
 
-    fun spawnBullet(parentEntityId: Int): Int {
-        getEntity(parentEntityId)?.let { parentEntity ->
+    fun spawnBullet(ownerId: Int): Int {
+        getEntity(ownerId)?.let { parentEntity ->
             return spawnBullet(parentEntity)
         }
         return -1
@@ -58,17 +56,31 @@ object EntityManager {
         val bullet = recycleEntity(EntityType.BULLET) as? Bullet ?: Bullet()
         bullet.textureRegion = TextureManager.getTextureRegion(bullet.resourceString)
         bullet.id = currentId++
-        bullet.position = parentEntity.position.cpy()
+        bullet.ownerType = parentEntity.type
+        bullet.position.set(parentEntity.position)
         bullet.angle = parentEntity.angle
         addEntity(bullet)
         return bullet.id
     }
 
+    fun spawnEnemy(x: Float, y: Float): Int {
+        val enemy = recycleEntity(EntityType.ENEMY) as? Enemy ?: Enemy()
+        enemy.textureRegion = TextureManager.getTextureRegion(enemy.resourceString)
+        enemy.id = currentId++
+        enemy.position.set(x, y)
+        addEntity(enemy)
+        return enemy.id
+    }
+
     fun removeEntity(entityId: Int) {
         if (entityId == -1) return
         val entity = idEntityMap[entityId] ?: return
+        removeEntity(entity)
+    }
+
+    private fun removeEntity(entity: BaseEntity) {
         idEntityMap.remove(entity.id)
-        typeEntityMap.remove(entity.type)
+        typeEntityMap[entity.type]?.removeValue(entity, true)
         deadEntityMap[entity.type]?.add(entity) ?: deadEntityMap.put(entity.type, Array<BaseEntity>().also { it.add(entity) })
     }
 
@@ -76,6 +88,20 @@ object EntityManager {
         typeEntityMap.values.forEach {
             it.forEach { it.update(deltaTime) }
         }
+
+        typeEntityMap[EntityType.BULLET]?.map { it as? Bullet }?.filterNotNull()?.forEach { bullet ->
+            typeEntityMap.forEach { (type, entityList) ->
+                if (type != EntityType.BULLET) entityList.forEach {
+                    if (bullet.ownerType != it.type && it.isColliding(bullet)) {
+                        it.health -= bullet.damage
+                        if (it.health <= 0) entitiesToRemove.add(it)
+                    }
+                }
+            }
+        }
+
+        entitiesToRemove.forEach { removeEntity(it) }
+        entitiesToRemove.clear()
     }
 
     fun draw(batch: SpriteBatch) {

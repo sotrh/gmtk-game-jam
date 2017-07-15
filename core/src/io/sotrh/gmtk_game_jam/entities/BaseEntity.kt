@@ -3,6 +3,7 @@ package io.sotrh.gmtk_game_jam.entities
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 
 /**
@@ -11,6 +12,13 @@ import com.badlogic.gdx.math.Vector2
 
 
 abstract class BaseEntity {
+
+    companion object {
+        val TEMP_VEC = Vector2()
+        val TEMP_RECT = Rectangle()
+        val TEMP_RECT_OTHER = Rectangle()
+    }
+
     abstract val resourceString: String
     abstract val type: EntityType
     var id: Int = -1
@@ -23,23 +31,40 @@ abstract class BaseEntity {
 
     abstract fun update(deltaTime: Float)
 
-    fun moveDelta(deltaTime: Float) {
+    open fun moveDelta(deltaTime: Float) {
         val vx = MathUtils.cos(angle) * velocity * deltaTime
         val vy = MathUtils.sin(angle) * velocity * deltaTime
         position.add(vx, vy)
     }
 
-    fun draw(batch: SpriteBatch) {
+    open fun draw(batch: SpriteBatch) {
         textureRegion?.let {
             batch.draw(it,
-                    position.x - it.texture.width / 2f,
-                    position.y - it.texture.height / 2f,
-                    it.texture.width / 2f,
-                    it.texture.height / 2f,
-                    it.texture.width.toFloat(),
-                    it.texture.height.toFloat(), 1.0f, 1.0f,
+                    position.x - it.regionWidth / 2f,
+                    position.y - it.regionHeight / 2f,
+                    it.regionWidth / 2f,
+                    it.regionHeight / 2f,
+                    it.regionWidth.toFloat(),
+                    it.regionHeight.toFloat(), 1.0f, 1.0f,
                     angle * MathUtils.radiansToDegrees - 90)
         }
+    }
+
+    fun isColliding(other: BaseEntity): Boolean {
+        val thisTextureRegion = textureRegion
+        val entityTextureRegion = other.textureRegion
+        if (entityTextureRegion != null && thisTextureRegion != null) {
+            val minX = position.x - thisTextureRegion.regionWidth / 2f
+            val maxX = position.x + thisTextureRegion.regionWidth / 2f
+            val minY = position.y - thisTextureRegion.regionHeight / 2f
+            val maxY = position.y + thisTextureRegion.regionHeight / 2f
+            val otherMinX = other.position.x - entityTextureRegion.regionWidth / 2f
+            val otherMaxX = other.position.x + entityTextureRegion.regionWidth / 2f
+            val otherMinY = other.position.y - entityTextureRegion.regionHeight / 2f
+            val otherMaxY = other.position.y + entityTextureRegion.regionHeight / 2f
+            return otherMinX >= minX && otherMaxX <= maxX && otherMinY >= minY && otherMaxY <= maxY
+        }
+        return false
     }
 }
 
