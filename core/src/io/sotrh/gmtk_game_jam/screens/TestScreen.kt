@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Array
 import io.sotrh.gmtk_game_jam.GMTKJamGame
 import io.sotrh.gmtk_game_jam.entities.Bullet
 import io.sotrh.gmtk_game_jam.entities.Player
-import org.w3c.dom.Text
 
 /**
  * gmtk-game-jam
@@ -43,10 +42,10 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
         }
 
 
-        player.update(delta)
+
         bullets.forEach { it.update(delta) }
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         player.update(delta)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         parent.apply {
             batch.begin()
             player.draw(batch)
