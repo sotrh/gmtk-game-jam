@@ -11,7 +11,7 @@ import io.sotrh.gmtk_game_jam.managers.EntityManager
  */
 
 open class Player : BaseEntity() {
-    override val resourceString: String = "player.png"
+    override var resourceString: String = "player.png"
     override val type: EntityType get() = EntityType.PLAYER
 
 

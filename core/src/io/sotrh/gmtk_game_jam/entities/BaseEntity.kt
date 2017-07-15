@@ -22,7 +22,7 @@ abstract class BaseEntity {
     }
 
 
-    abstract val resourceString: String
+    abstract var resourceString: String
     abstract val type: EntityType
     var id: Int = -1
     var textureRegion: TextureRegion? = null
