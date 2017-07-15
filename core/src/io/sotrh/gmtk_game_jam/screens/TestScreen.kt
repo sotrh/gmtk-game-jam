@@ -19,6 +19,11 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
         val music = SoundManager.getMusic("background.ogg")
         music.play()
         music.isLooping = true
+
+        EntityManager.spawnEnemy(Gdx.graphics.width * 0.25f, Gdx.graphics.height * 0.25f)
+        EntityManager.spawnEnemy(Gdx.graphics.width * 0.25f, Gdx.graphics.height * 0.75f)
+        EntityManager.spawnEnemy(Gdx.graphics.width * 0.75f, Gdx.graphics.height * 0.25f)
+        EntityManager.spawnEnemy(Gdx.graphics.width * 0.75f, Gdx.graphics.height * 0.75f)
     }
 
     override fun render(delta: Float) {

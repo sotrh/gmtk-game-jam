@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2
  * Created by ryanberger on 7/14/17.
  */
 
-class Player : BaseEntity() {
+open class Player : BaseEntity() {
     override val resourceString: String = "player.png"
     override val type: EntityType get() = EntityType.PLAYER
 
@@ -40,11 +40,12 @@ class Player : BaseEntity() {
 
     override fun update(deltaTime: Float) {
         shootCounter += deltaTime
-        val direction = Vector2(Gdx.input.x.toFloat(), Gdx.graphics.height - Gdx.input.y.toFloat())
-        direction
-                .sub(position)
-                .nor()
+        val direction = calcDirection()
         angle = direction.angleRad()
         moveDelta(deltaTime)
+    }
+
+    open protected fun calcDirection(): Vector2 {
+        return TEMP_VEC.set(Gdx.input.x.toFloat(), Gdx.graphics.height - Gdx.input.y.toFloat()).sub(position).nor()
     }
 }
