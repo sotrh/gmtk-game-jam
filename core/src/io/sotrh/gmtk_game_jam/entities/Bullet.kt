@@ -14,13 +14,10 @@ class Bullet : BaseEntity() {
     override val type: EntityType get() = EntityType.BULLET
     override val resourceString: String = "bullet.png"
 
-    init {
-        this.position = position.cpy()
-        this.angle = angle
-        this.velocity = Vector2(MathUtils.cos(angle), MathUtils.sin(angle)).scl(600f)
-    }
+
 
     override fun update(deltaTime: Float) {
+        this.velocity = Vector2(MathUtils.cos(angle), MathUtils.sin(angle)).scl(600f)
         moveDelta(deltaTime)
     }
 }
