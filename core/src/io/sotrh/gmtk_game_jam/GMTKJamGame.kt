@@ -6,11 +6,14 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import io.sotrh.gmtk_game_jam.managers.TextureManager
 import io.sotrh.gmtk_game_jam.screens.TestScreen
 
 class GMTKJamGame : Game() {
     lateinit var batch: SpriteBatch private set
     lateinit var font: BitmapFont private set
+
+    val textureManager = TextureManager()
 
     override fun create() {
         batch = SpriteBatch()
@@ -20,5 +23,6 @@ class GMTKJamGame : Game() {
 
     override fun dispose() {
         batch.dispose()
+        textureManager.disposeAll()
     }
 }
