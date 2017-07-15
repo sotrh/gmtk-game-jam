@@ -13,8 +13,8 @@ object EntityManager {
     private var playerId = -1
     private val entitiesToRemove = Array<BaseEntity>()
     private val entityQueue = Array<BaseEntity>()
+    private val recycleEntityQueue = Array<BaseEntity>()
     private val idEntityMap = mutableMapOf<Int, BaseEntity>()
-    private val deadEntityMap = mutableMapOf<EntityType, Array<BaseEntity>>()
     private val typeEntityMap = mutableMapOf<EntityType, Array<BaseEntity>>()
 
     private fun addEntity(entity: BaseEntity) {
@@ -40,11 +40,6 @@ object EntityManager {
         return idEntityMap[playerId] as? Player ?: return null
     }
 
-    private fun recycleEntity(type: EntityType): BaseEntity? {
-        val recycledEntity = deadEntityMap[type]?.first() ?: return null
-        deadEntityMap[type]?.removeIndex(0)
-        return recycledEntity
-    }
 
     fun spawnBullet(ownerId: Int): Int {
         getEntity(ownerId)?.let { parentEntity ->
@@ -54,7 +49,7 @@ object EntityManager {
     }
 
     fun spawnBullet(parentEntity: BaseEntity): Int {
-        val bullet = recycleEntity(EntityType.BULLET) as? Bullet ?: Bullet()
+        val bullet =Bullet()
         bullet.textureRegion = TextureManager.getTextureRegion(bullet.resourceString)
         bullet.id = currentId++
         bullet.ownerType = parentEntity.type
@@ -65,7 +60,7 @@ object EntityManager {
     }
 
     fun spawnEnemy(x: Float, y: Float): Int {
-        val enemy = recycleEntity(EntityType.ENEMY) as? Enemy ?: Enemy()
+        val enemy = Enemy()
         enemy.textureRegion = TextureManager.getTextureRegion(enemy.resourceString)
         enemy.id = currentId++
         enemy.position.set(x, y)
@@ -82,7 +77,6 @@ object EntityManager {
     private fun removeEntity(entity: BaseEntity) {
         idEntityMap.remove(entity.id)
         typeEntityMap[entity.type]?.removeValue(entity, true)
-        deadEntityMap[entity.type]?.add(entity) ?: deadEntityMap.put(entity.type, Array<BaseEntity>().also { it.add(entity) })
     }
 
     fun update(deltaTime: Float) {
@@ -119,6 +113,5 @@ object EntityManager {
         currentId = 0
         idEntityMap.clear()
         typeEntityMap.clear()
-        deadEntityMap.clear()
     }
 }
