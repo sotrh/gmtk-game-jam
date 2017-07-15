@@ -32,18 +32,6 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
             return
         }
 
-        EntityManager.getPlayer()?.let { player ->
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                player.boost()
-            } else {
-                player.stop()
-            }
-
-            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && player.canShoot) {
-                EntityManager.spawnBullet(player)
-            }
-        }
-
         EntityManager.update(delta)
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)

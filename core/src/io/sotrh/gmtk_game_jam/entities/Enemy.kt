@@ -1,5 +1,6 @@
 package io.sotrh.gmtk_game_jam.entities
 
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import io.sotrh.gmtk_game_jam.managers.EntityManager
 
@@ -10,6 +11,8 @@ import io.sotrh.gmtk_game_jam.managers.EntityManager
 class Enemy : Player() {
     override val type: EntityType get() = EntityType.ENEMY
     override val resourceString: String get() = "enemy3.png"
+    override var health: Int = 30
+    override var maxVelocity: Int = 100
 
     override fun calcDirection(): Vector2 {
         EntityManager.getPlayer()?.let {
@@ -17,4 +20,18 @@ class Enemy : Player() {
         }
         return Vector2.Zero
     }
+
+    override fun calcShoot(): Boolean {
+        if(canShoot) {
+            return MathUtils.floor(MathUtils.random() * 10) % 10 == 0
+        } else {
+            return false
+        }
+    }
+
+    override fun calcMove(): Boolean {
+        return true
+    }
+
+
 }
