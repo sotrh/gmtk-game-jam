@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
  * gmtk-game-jam
  * Date: 7/14/17
  */
-class TextureManager {
+object TextureManager {
     private val textureMap = mutableMapOf<String, Texture>()
 
     fun getTexture(name: String): Texture {

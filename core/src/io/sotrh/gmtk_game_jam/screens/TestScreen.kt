@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array
 import io.sotrh.gmtk_game_jam.GMTKJamGame
 import io.sotrh.gmtk_game_jam.entities.Bullet
 import io.sotrh.gmtk_game_jam.entities.Player
+import io.sotrh.gmtk_game_jam.managers.TextureManager
 
 /**
  * gmtk-game-jam
@@ -19,7 +20,7 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
 
     override fun show() {
         parent.apply {
-            player.textureRegion = textureManager.getTextureRegion(player.resourceString)
+            player.textureRegion = TextureManager.getTextureRegion(player.resourceString)
         }
     }
 
@@ -36,12 +37,10 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && player.canShoot) {
-            val bullet = Bullet(player)
-            bullet.textureRegion = parent.textureManager.getTextureRegion(bullet.resourceString)
+            val bullet = Bullet(player.position, player.angle)
+            bullet.textureRegion = TextureManager.getTextureRegion(bullet.resourceString)
             bullets.add(bullet)
         }
-
-
 
         bullets.forEach { it.update(delta) }
         player.update(delta)

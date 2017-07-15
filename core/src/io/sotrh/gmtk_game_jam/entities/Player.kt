@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2
 
 class Player : BaseEntity() {
     override val resourceString: String = "player.png"
+    override val type: EntityType get() = EntityType.PLAYER
+
     private var shootCounter: Float = 0f
     var canShoot: Boolean = false
         get() {
