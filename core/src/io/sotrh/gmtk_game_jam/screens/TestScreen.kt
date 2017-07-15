@@ -13,5 +13,10 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         // do drawing here
+        parent.apply {
+            batch.begin()
+            font.draw(batch, "FPS: ${Gdx.graphics.framesPerSecond}", 10f, 20f)
+            batch.end()
+        }
     }
 }
