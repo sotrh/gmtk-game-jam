@@ -1,12 +1,8 @@
 package io.sotrh.gmtk_game_jam.entities
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
 
 /**
@@ -16,6 +12,8 @@ import com.badlogic.gdx.math.Vector2
 
 abstract class BaseEntity {
     abstract val resourceString: String
+    abstract val type: EntityType
+    var id: Int = -1
     var textureRegion: TextureRegion? = null
     open var position: Vector2 = Vector2()
     open var health: Int = 100
@@ -31,7 +29,7 @@ abstract class BaseEntity {
         position.add(vx, vy)
     }
 
-    open fun draw(batch: SpriteBatch) {
+    fun draw(batch: SpriteBatch) {
         textureRegion?.let {
             batch.draw(it,
                     position.x - it.texture.width / 2f,
@@ -44,3 +42,4 @@ abstract class BaseEntity {
         }
     }
 }
+

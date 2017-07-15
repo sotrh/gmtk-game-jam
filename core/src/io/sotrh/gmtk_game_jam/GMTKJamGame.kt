@@ -15,8 +15,6 @@ class GMTKJamGame : Game() {
     lateinit var batch: SpriteBatch private set
     lateinit var font: BitmapFont private set
 
-    val textureManager = TextureManager()
-
     override fun create() {
         batch = SpriteBatch()
         font = BitmapFont()
@@ -25,6 +23,6 @@ class GMTKJamGame : Game() {
 
     override fun dispose() {
         batch.dispose()
-        textureManager.disposeAll()
+        TextureManager.disposeAll()
     }
 }

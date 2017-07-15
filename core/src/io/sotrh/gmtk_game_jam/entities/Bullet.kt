@@ -1,6 +1,5 @@
 package io.sotrh.gmtk_game_jam.entities
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector2
 
 /**
@@ -8,13 +7,14 @@ import com.badlogic.gdx.math.Vector2
  */
 
 
-class Bullet(player: Player) : BaseEntity() {
+class Bullet : BaseEntity() {
+    override val type: EntityType get() = EntityType.BULLET
     override var velocity: Float = 600f
     override val resourceString: String = "bullet.png"
 
     init {
-        position = player.position.cpy()
-        angle = player.angle
+        this.position = position.cpy()
+        this.angle = angle
     }
 
     override fun update(deltaTime: Float) {
