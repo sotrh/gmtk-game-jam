@@ -1,11 +1,10 @@
 package io.sotrh.gmtk_game_jam.screens
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Texture
 import io.sotrh.gmtk_game_jam.GMTKJamGame
 import io.sotrh.gmtk_game_jam.entities.Player
-import org.w3c.dom.Text
 
 /**
  * gmtk-game-jam
@@ -22,8 +21,20 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
     }
 
     override fun render(delta: Float) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit()
+            return
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            player.boost()
+        } else {
+            player.stop()
+        }
+
+
         player.update(delta)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         parent.apply {
             batch.begin()
             player.draw(batch)

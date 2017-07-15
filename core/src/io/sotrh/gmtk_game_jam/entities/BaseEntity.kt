@@ -20,7 +20,7 @@ abstract class BaseEntity {
     var position: Vector2 = Vector2()
     var health: Int = 100
     var angle: Float = 0f
-    var velocity: Float = 10f
+    var velocity: Float = 0f
 
 
     fun moveDelta(deltaTime: Float) {
@@ -40,7 +40,13 @@ abstract class BaseEntity {
 
     fun draw(batch: SpriteBatch) {
         textureRegion?.let {
-            batch.draw(it, position.x, position.y, it.texture.width / 2f, it.texture.height / 2f, it.texture.width.toFloat(), it.texture.height.toFloat(), 1.0f, 1.0f,
+            batch.draw(it,
+                    position.x - it.texture.width / 2f,
+                    position.y - it.texture.height / 2f,
+                    it.texture.width / 2f,
+                    it.texture.height / 2f,
+                    it.texture.width.toFloat(),
+                    it.texture.height.toFloat(), 1.0f, 1.0f,
                     angle * MathUtils.radiansToDegrees - 90)
         }
     }
