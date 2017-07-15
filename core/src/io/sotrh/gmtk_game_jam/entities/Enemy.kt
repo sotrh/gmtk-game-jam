@@ -9,6 +9,7 @@ import io.sotrh.gmtk_game_jam.managers.EntityManager
  */
 class Enemy : Player() {
     override val type: EntityType get() = EntityType.ENEMY
+    override val resourceString: String get() = "enemy3.png"
 
     override fun calcDirection(): Vector2 {
         EntityManager.getPlayer()?.let {
