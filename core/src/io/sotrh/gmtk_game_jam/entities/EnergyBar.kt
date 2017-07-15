@@ -8,7 +8,7 @@ import io.sotrh.gmtk_game_jam.managers.TextureManager
  * Date: 7/15/17
  */
 class EnergyBar(val parentEntity: BaseEntity) : BaseEntity() {
-    override val resourceString: String = "energy-bar-color.png"
+    override var resourceString: String = "energy-bar-color.png"
     private val frameResourceString: String = "energy-bar-frame.png"
     private var barScale: Float = 1f
 

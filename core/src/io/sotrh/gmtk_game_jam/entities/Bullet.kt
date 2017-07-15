@@ -12,7 +12,7 @@ class Bullet : BaseEntity() {
     var ownerType: EntityType = EntityType.NONE
     var damage: Int = 10
     override val type: EntityType get() = EntityType.BULLET
-    override val resourceString: String = "bullet.png"
+    override var resourceString: String = "hero-bullet.png"
 
 
 

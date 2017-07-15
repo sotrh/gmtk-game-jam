@@ -52,11 +52,15 @@ object EntityManager {
 
     fun spawnBullet(parentEntity: BaseEntity): Int {
         val bullet =Bullet()
-        bullet.textureRegion = TextureManager.getTextureRegion(bullet.resourceString)
         bullet.id = currentId++
         bullet.ownerType = parentEntity.type
+        if (bullet.ownerType == EntityType.ENEMY) {
+            bullet.resourceString = "bullet.png"
+        }
         bullet.position.set(parentEntity.position)
         bullet.angle = parentEntity.angle
+        bullet.textureRegion = TextureManager.getTextureRegion(bullet.resourceString)
+
         entityQueue.add(bullet)
         return bullet.id
     }
