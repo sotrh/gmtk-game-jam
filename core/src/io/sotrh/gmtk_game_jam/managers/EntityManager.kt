@@ -29,7 +29,9 @@ object EntityManager {
         player.textureRegion = TextureManager.getTextureRegion(player.resourceString)
         playerId = player.id
         entityQueue.add(player)
-        entityQueue.add(EnergyBar(player))
+        val energyBar = EnergyBar(player)
+        energyBar.textureRegion = TextureManager.getTextureRegion(energyBar.resourceString)
+        entityQueue.add(energyBar)
         return player.id
     }
 
@@ -71,7 +73,9 @@ object EntityManager {
         enemy.id = currentId++
         enemy.position.set(x, y)
         entityQueue.add(enemy)
-        entityQueue.add(EnergyBar(enemy))
+        val energyBar = EnergyBar(enemy)
+        energyBar.textureRegion = TextureManager.getTextureRegion(energyBar.resourceString)
+        entityQueue.add(energyBar)
         return enemy.id
     }
 
