@@ -11,8 +11,8 @@ import io.sotrh.gmtk_game_jam.managers.EntityManager
 class Enemy : Player() {
     override val type: EntityType get() = EntityType.ENEMY
     override var resourceString: String = "enemy${MathUtils.random(0, 2)}.png"
-    override var health: Int = 30
-    override val maxHealth: Int = 30
+    override var energy: Int = 30
+    override val maxEnergy: Int = 30
     override var maxVelocity: Int = 100
 
     override fun calcDirection(): Vector2 {

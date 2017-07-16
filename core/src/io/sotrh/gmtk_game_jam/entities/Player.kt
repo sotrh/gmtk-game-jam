@@ -3,7 +3,6 @@ package io.sotrh.gmtk_game_jam.entities
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Vector2
-import com.sun.org.apache.xpath.internal.operations.Bool
 import io.sotrh.gmtk_game_jam.managers.EntityManager
 
 /**
@@ -14,17 +13,17 @@ open class Player : BaseEntity() {
     override var resourceString: String = "player.png"
     override val type: EntityType get() = EntityType.PLAYER
 
-
+    private var regenCounter: Float = 0f
     private var shootCounter: Float = 0f
     var canShoot: Boolean = false
         get() {
-            if (shootCounter > SHOOT_COOLDOWN) {
+            if (shootCounter > SHOOT_COOLDOWN && energy > ENERGY_DRAINED_PER_SHOT) {
                 shootCounter = 0f
+                energy -= ENERGY_DRAINED_PER_SHOT
                 return true
             }
             return false
         }
-
 
     fun boost() {
         val direction = calcDirection().nor().scl(20f)
@@ -58,6 +57,12 @@ open class Player : BaseEntity() {
             EntityManager.spawnBullet(this)
         }
 
+        regenCounter += deltaTime
+        if (regenCounter > ENERGY_REGEN_COOLDOWN) {
+            energy += ENERGY_REGEN_AMOUNT
+            regenCounter = 0f
+            if (energy > maxEnergy) energy = maxEnergy
+        }
     }
 
     open protected fun calcDirection(): Vector2 {

@@ -1,7 +1,6 @@
 package io.sotrh.gmtk_game_jam.entities
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import io.sotrh.gmtk_game_jam.managers.TextureManager
 
 /**
  * gmtk-game-jam
@@ -15,7 +14,7 @@ class EnergyBar(val parentEntity: BaseEntity) : BaseEntity() {
         get() = EntityType.HUD
 
     override fun update(deltaTime: Float) {
-        health = parentEntity.health
+        energy = parentEntity.energy
         position.set(parentEntity.position)
     }
 
@@ -23,7 +22,7 @@ class EnergyBar(val parentEntity: BaseEntity) : BaseEntity() {
         val thisTextureRegion = textureRegion
         val parentTextureRegion = parentEntity.textureRegion
         if (thisTextureRegion != null && parentTextureRegion != null) {
-            batch.draw(thisTextureRegion, position.x - parentTextureRegion.regionWidth / 2f, position.y + 10f, parentTextureRegion.regionWidth.toFloat() * health.toFloat() / parentEntity.maxHealth, 5f)
+            batch.draw(thisTextureRegion, position.x - parentTextureRegion.regionWidth / 2f, position.y + 10f, parentTextureRegion.regionWidth.toFloat() * energy.toFloat() / parentEntity.maxEnergy, 5f)
         }
     }
 }
