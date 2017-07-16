@@ -17,7 +17,10 @@ abstract class BaseEntity {
         val TEMP_VEC = Vector2()
         val TEMP_RECT = Rectangle()
         val TEMP_RECT_OTHER = Rectangle()
-        val SHOOT_COOLDOWN = .1f
+        val SHOOT_COOLDOWN = 0.1f
+        val ENERGY_REGEN_COOLDOWN = 0.5f
+        val ENERGY_DRAINED_PER_SHOT = 10
+        val ENERGY_REGEN_AMOUNT = 10
         val MAX_VELOCITY = 500
     }
 
@@ -27,8 +30,8 @@ abstract class BaseEntity {
     var id: Int = -1
     var textureRegion: TextureRegion? = null
     open var position: Vector2 = Vector2()
-    open var health: Int = 100
-    open val maxHealth: Int = 100
+    open var energy: Int = 100
+    open val maxEnergy: Int = 100
     open var angle: Float = 0f
     open var velocity: Vector2 = Vector2()
     open var maxVelocity: Int = MAX_VELOCITY
