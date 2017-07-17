@@ -14,7 +14,7 @@ import io.sotrh.gmtk_game_jam.managers.TextureManager
  * gmtk-game-jam
  * Date: 7/14/17
  */
-class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
+class PlayScreen(parent: GMTKJamGame) : BaseScreen(parent) {
 
     lateinit var backgroundTexture: Texture
 
