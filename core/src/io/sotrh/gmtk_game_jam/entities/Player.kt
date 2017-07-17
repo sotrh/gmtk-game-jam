@@ -39,10 +39,8 @@ open class Player : BaseEntity() {
     }
 
     override fun update(deltaTime: Float) {
-        // Direction
         val direction = calcDirection()
 
-        // Move
         if (this.calcMove()) {
             this.boost()
         } else {
@@ -51,7 +49,6 @@ open class Player : BaseEntity() {
         angle = direction.angleRad()
         moveDelta(deltaTime)
 
-        // Shoot
         shootCounter += deltaTime
         if (this.calcShoot()) {
             EntityManager.spawnBullet(this)
