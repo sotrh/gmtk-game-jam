@@ -19,14 +19,13 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
     lateinit var backgroundTexture: Texture
 
     override fun show() {
-        EntityManager.createPlayer(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f)
-        
+        EntityManager.createDefaultEntities()
+
         val music = SoundManager.getMusic("background.ogg")
         music.play()
         music.isLooping = true
 
         backgroundTexture = TextureManager.getTexture("background.png")
-        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat)
     }
 
     override fun render(delta: Float) {
@@ -47,7 +46,6 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
             batch.begin()
             batch.draw(backgroundTexture, 0f, 0f, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
             EntityManager.draw(batch)
-            font.draw(batch, "FPS: ${Gdx.graphics.framesPerSecond}", 10f, 20f)
             batch.end()
         }
     }

@@ -1,5 +1,7 @@
 package io.sotrh.gmtk_game_jam.managers
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.Array
 import io.sotrh.gmtk_game_jam.entities.*
@@ -12,15 +14,20 @@ import io.sotrh.gmtk_game_jam.gdxArrayOf
 object EntityManager {
     private var currentId = 0
     private var playerId = -1
+    private var scoreId = -1
     private val entitiesToRemove = Array<BaseEntity>()
     private val entityQueue = Array<BaseEntity>()
-    private val recycleEntityQueue = Array<BaseEntity>()
     private val idEntityMap = mutableMapOf<Int, BaseEntity>()
     private val typeEntityMap = mutableMapOf<EntityType, Array<BaseEntity>>()
 
     private fun addEntity(entity: BaseEntity) {
         typeEntityMap[entity.type]?.add(entity) ?: typeEntityMap.put(entity.type, gdxArrayOf(entity))
         idEntityMap.put(entity.id, entity)
+    }
+
+    fun createDefaultEntities() {
+        EntityManager.createPlayer(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f)
+        EntityManager.createScoreText(10f, Gdx.graphics.height - 10f)
     }
 
     fun createPlayer(x: Float, y: Float): Int {
@@ -45,6 +52,18 @@ object EntityManager {
         return idEntityMap[playerId] as? Player ?: return null
     }
 
+    fun createScoreText(x: Float, y: Float): Int {
+        val score = ScoreText()
+        score.id = currentId++
+        score.position.set(x, y)
+        scoreId = score.id
+        entityQueue.add(score)
+        return score.id
+    }
+
+    fun incrementScore(amount: Int) {
+        (idEntityMap[scoreId] as? ScoreText)?.let { it.score += amount }
+    }
 
     fun spawnBullet(ownerId: Int): Int {
         getEntity(ownerId)?.let { parentEntity ->
@@ -111,7 +130,10 @@ object EntityManager {
 
         entityQueue.forEach { addEntity(it) }
         entityQueue.clear()
-        entitiesToRemove.forEach { removeEntity(it) }
+        entitiesToRemove.forEach {
+            if (it.type == EntityType.ENEMY) incrementScore(1)
+            removeEntity(it)
+        }
         entitiesToRemove.clear()
     }
 
