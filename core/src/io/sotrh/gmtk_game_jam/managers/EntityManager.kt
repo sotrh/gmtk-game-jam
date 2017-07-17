@@ -30,6 +30,15 @@ object EntityManager {
     fun createDefaultEntities() {
         EntityManager.createPlayer(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f)
         EntityManager.createScoreText(10f, Gdx.graphics.height - 10f)
+        EntityManager.createPlayerEnergyText(getPlayer()!!, 10f, Gdx.graphics.height - 30f)
+    }
+
+    private fun createPlayerEnergyText(player: Player, x: Float, y: Float): Int {
+        return PlayerEnergyText(player).also {
+            it.id = currentId++
+            it.position.set(x, y)
+            entityQueue.add(it)
+        }.id
     }
 
     fun createPlayer(x: Float, y: Float): Int {
@@ -38,7 +47,7 @@ object EntityManager {
         player.position.set(x, y)
         player.textureRegion = TextureManager.getTextureRegion(player.resourceString)
         playerId = player.id
-        entityQueue.add(player)
+        addEntity(player)
         val energyBar = EnergyBar(player)
         energyBar.textureRegion = TextureManager.getTextureRegion(energyBar.resourceString)
         entityQueue.add(energyBar)
