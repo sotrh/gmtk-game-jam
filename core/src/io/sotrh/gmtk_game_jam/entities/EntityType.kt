@@ -1,5 +1,5 @@
 package io.sotrh.gmtk_game_jam.entities
 
 enum class EntityType {
-    NONE, BULLET, PLAYER, ENEMY, HUD
+    NONE, BULLET, PLAYER, ENEMY, PARTICLE, HUD
 }

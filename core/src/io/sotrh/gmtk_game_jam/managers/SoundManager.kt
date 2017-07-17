@@ -1,9 +1,9 @@
 package io.sotrh.gmtk_game_jam.managers
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.ai.GdxFileSystem
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.math.MathUtils
 
 /**
  * Created by ryanberger on 7/15/17.
@@ -15,7 +15,7 @@ object SoundManager {
     private val soundMap: MutableMap<String, Sound> = mutableMapOf()
 
     fun getSound(filepath: String): Sound {
-        return soundMap[filepath] ?: Gdx.audio.newSound(Gdx.files.internal("music/$filepath")).also { soundMap.put(filepath, it) }
+        return soundMap[filepath] ?: Gdx.audio.newSound(Gdx.files.internal("sounds/$filepath")).also { soundMap.put(filepath, it) }
     }
 
     fun getMusic(filepath: String): Music {
@@ -27,6 +27,7 @@ object SoundManager {
         musicMap.remove(filepath)
 
     }
+
     fun disposeSound(filepath: String) {
         soundMap[filepath]?.dispose()
         soundMap.remove(filepath)
@@ -44,5 +45,17 @@ object SoundManager {
     fun disposeAll() {
         disposeAllMusic()
         disposeAllSound()
+    }
+
+    fun playSound(soundName: String, randomize: Boolean = false) {
+        if (randomize) {
+            getSound(soundName).play(1.0f, when (MathUtils.random(0, 2)) {
+                2 -> 3.0f
+                1 -> 2.0f
+                else -> 1.0f
+            }, 0.0f)
+        } else {
+            getSound(soundName).play()
+        }
     }
 }

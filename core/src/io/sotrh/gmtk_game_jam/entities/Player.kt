@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Vector2
 import io.sotrh.gmtk_game_jam.managers.EntityManager
+import io.sotrh.gmtk_game_jam.managers.SoundManager
 
 /**
  * Created by ryanberger on 7/14/17.
@@ -51,7 +52,7 @@ open class Player : BaseEntity() {
 
         shootCounter += deltaTime
         if (this.calcShoot()) {
-            EntityManager.spawnBullet(this)
+            shoot()
         }
 
         regenCounter += deltaTime
@@ -60,6 +61,11 @@ open class Player : BaseEntity() {
             regenCounter = 0f
             if (energy > maxEnergy) energy = maxEnergy
         }
+    }
+
+    private fun shoot() {
+        EntityManager.spawnBullet(this)
+        SoundManager.playSound("laser.wav", true)
     }
 
     open protected fun calcDirection(): Vector2 {

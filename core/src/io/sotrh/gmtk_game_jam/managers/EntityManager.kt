@@ -1,8 +1,9 @@
 package io.sotrh.gmtk_game_jam.managers
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import io.sotrh.gmtk_game_jam.entities.*
 import io.sotrh.gmtk_game_jam.gdxArrayOf
@@ -131,10 +132,33 @@ object EntityManager {
         entityQueue.forEach { addEntity(it) }
         entityQueue.clear()
         entitiesToRemove.forEach {
-            if (it.type == EntityType.ENEMY) incrementScore(1)
+            if (it.type == EntityType.ENEMY) {
+                incrementScore(1)
+                spawnExplosion(it)
+            } else if (it.type == EntityType.PLAYER) {
+                spawnExplosion(it)
+            }
             removeEntity(it)
         }
         entitiesToRemove.clear()
+    }
+
+    private fun spawnExplosion(parent: BaseEntity): Int {
+        val explosion = Explosion()
+        explosion.id = currentId++
+        explosion.position.set(parent.position)
+        explosion.angle = parent.angle
+        explosion.textureRegion = TextureManager.getTextureRegion(explosion.resourceString)
+        entityQueue.add(explosion)
+        return explosion.id
+    }
+
+    fun spawnExplosionBit(parent: BaseEntity): Int {
+        val explosionBit = ExplosionBit()
+        explosionBit.id = currentId++
+        explosionBit.position.set(parent.position)
+        entityQueue.add(explosionBit)
+        return explosionBit.id
     }
 
     fun draw(batch: SpriteBatch) {
@@ -145,6 +169,8 @@ object EntityManager {
 
     fun dispose() {
         currentId = 0
+        playerId = -1
+        scoreId = -1
         idEntityMap.clear()
         typeEntityMap.clear()
     }
