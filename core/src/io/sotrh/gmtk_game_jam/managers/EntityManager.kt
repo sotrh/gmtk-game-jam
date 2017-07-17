@@ -1,6 +1,7 @@
 package io.sotrh.gmtk_game_jam.managers
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.MathUtils
@@ -162,7 +163,14 @@ object EntityManager {
     }
 
     fun draw(batch: SpriteBatch) {
+        val defaultDstBlendFunc = batch.blendDstFunc
+        val defaultSrcBlendFunc = batch.blendSrcFunc
         EntityType.values().forEach {
+            if (it == EntityType.PARTICLE || it == EntityType.BULLET) {
+                batch.setBlendFunction(GL20.GL_BLEND_SRC_ALPHA, GL20.GL_ONE)
+            } else {
+                batch.setBlendFunction(defaultSrcBlendFunc, defaultDstBlendFunc)
+            }
             typeEntityMap[it]?.forEach { it.draw(batch) }
         }
     }
