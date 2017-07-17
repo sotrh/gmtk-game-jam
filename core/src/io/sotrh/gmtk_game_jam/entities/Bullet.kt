@@ -8,13 +8,11 @@ import com.badlogic.gdx.math.Vector2
  */
 
 
-class Bullet : BaseEntity() {
+class Bullet : ParticleEntity() {
     var ownerType: EntityType = EntityType.NONE
     var damage: Int = 10
     override val type: EntityType get() = EntityType.BULLET
     override var resourceString: String = "hero-bullet.png"
-
-
 
     override fun update(deltaTime: Float) {
         this.velocity = Vector2(MathUtils.cos(angle), MathUtils.sin(angle)).scl(600f)

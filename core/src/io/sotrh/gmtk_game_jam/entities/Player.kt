@@ -14,6 +14,9 @@ open class Player : BaseEntity() {
     override var resourceString: String = "player.png"
     override val type: EntityType get() = EntityType.PLAYER
 
+    protected var boostSound = SoundManager.getSound("engine.ogg")
+    protected var soundId = -1L
+
     private var regenCounter: Float = 0f
     private var shootCounter: Float = 0f
     var canShoot: Boolean = false
@@ -26,12 +29,20 @@ open class Player : BaseEntity() {
             return false
         }
 
+    open fun adjustBoostVolume(volume: Float) {
+        if (soundId == -1L) soundId = boostSound.loop(volume)
+        else boostSound.setVolume(soundId, volume)
+    }
+
     fun boost() {
         val direction = calcDirection().nor().scl(20f)
         velocity.add(direction)
         val mag = velocity.len()
         if (mag > maxVelocity) {
             velocity.scl(maxVelocity/mag)
+            adjustBoostVolume(1.0f)
+        } else {
+            adjustBoostVolume(mag/maxVelocity)
         }
     }
 

@@ -7,6 +7,7 @@ import io.sotrh.gmtk_game_jam.GMTKJamGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
 		new LwjglApplication(new GMTKJamGame(), config);
 	}
 }

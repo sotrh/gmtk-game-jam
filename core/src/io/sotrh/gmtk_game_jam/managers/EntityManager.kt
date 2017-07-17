@@ -147,6 +147,7 @@ object EntityManager {
                 spawnExplosion(it)
             } else if (it.type == EntityType.PLAYER) {
                 spawnExplosion(it)
+                playerId = -1
             }
             removeEntity(it)
         }
@@ -182,6 +183,14 @@ object EntityManager {
             }
             typeEntityMap[it]?.forEach { it.draw(batch) }
         }
+    }
+
+    fun isInited(): Boolean {
+        return scoreId != -1
+    }
+
+    fun isPlayerAlive(): Boolean {
+        return playerId != -1
     }
 
     fun dispose() {

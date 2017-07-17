@@ -15,6 +15,10 @@ class Enemy : Player() {
     override val maxEnergy: Int = 30
     override var maxVelocity: Int = 100
 
+    override fun adjustBoostVolume(volume: Float) {
+        // no op
+    }
+
     override fun calcDirection(): Vector2 {
         EntityManager.getPlayer()?.let {
             return TEMP_VEC.set(it.position).sub(position).nor()
