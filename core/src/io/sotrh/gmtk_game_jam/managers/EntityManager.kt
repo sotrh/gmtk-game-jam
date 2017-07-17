@@ -3,6 +3,7 @@ package io.sotrh.gmtk_game_jam.managers
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.Array
 import io.sotrh.gmtk_game_jam.entities.*
+import io.sotrh.gmtk_game_jam.gdxArrayOf
 
 /**
  * gmtk-game-jam
@@ -18,13 +19,14 @@ object EntityManager {
     private val typeEntityMap = mutableMapOf<EntityType, Array<BaseEntity>>()
 
     private fun addEntity(entity: BaseEntity) {
-        typeEntityMap[entity.type]?.add(entity) ?: typeEntityMap.put(entity.type, Array<BaseEntity>().also { it.add(entity) })
+        typeEntityMap[entity.type]?.add(entity) ?: typeEntityMap.put(entity.type, gdxArrayOf(entity))
         idEntityMap.put(entity.id, entity)
     }
 
-    fun createPlayer(): Int {
+    fun createPlayer(x: Float, y: Float): Int {
         val player = Player()
         player.id = currentId++
+        player.position.set(x, y)
         player.textureRegion = TextureManager.getTextureRegion(player.resourceString)
         playerId = player.id
         entityQueue.add(player)
@@ -52,7 +54,7 @@ object EntityManager {
     }
 
     fun spawnBullet(parentEntity: BaseEntity): Int {
-        val bullet =Bullet()
+        val bullet = Bullet()
         bullet.id = currentId++
         bullet.ownerType = parentEntity.type
         if (bullet.ownerType == EntityType.ENEMY) {
@@ -114,10 +116,8 @@ object EntityManager {
     }
 
     fun draw(batch: SpriteBatch) {
-        typeEntityMap.forEach { (_, entities) ->
-            entities.forEach {
-                it.draw(batch)
-            }
+        EntityType.values().forEach {
+            typeEntityMap[it]?.forEach { it.draw(batch) }
         }
     }
 

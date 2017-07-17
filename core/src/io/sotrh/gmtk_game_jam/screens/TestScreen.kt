@@ -19,7 +19,8 @@ class TestScreen(parent: GMTKJamGame) : BaseScreen(parent) {
     lateinit var backgroundTexture: Texture
 
     override fun show() {
-        EntityManager.createPlayer()
+        EntityManager.createPlayer(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f)
+        
         val music = SoundManager.getMusic("background.ogg")
         music.play()
         music.isLooping = true
